@@ -1,0 +1,417 @@
+/* ===== Resume Viewer Component Styles ===== */
+
+/* Resume Button Styles */
+.resume-viewer-btn {
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(90deg, #2563eb, #00d4ff);
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    border: none;
+    font-family: inherit;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .resume-viewer-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 212, 255, 0.5);
+  }
+  
+  .resume-viewer-btn:active {
+    transform: translateY(-1px);
+  }
+  
+  .icon-left {
+    margin-right: 0.5rem;
+  }
+  
+  .resume-viewer-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: shine 3s infinite;
+  }
+  
+  /* Modal Overlay */
+  .resume-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(10, 14, 23, 0.85);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 1100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Modal Container */
+  .resume-modal {
+    background: #0f172a;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 1000px;
+    height: 85vh;
+    max-height: 800px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+  
+  /* Modal Header */
+  .resume-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.95);
+    z-index: 5;
+  }
+  
+  .resume-modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+  }
+  
+  .resume-modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  
+  /* Action Buttons */
+  .resume-action-btn {
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+  }
+  
+  .resume-action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  .resume-action-btn.download {
+    background: rgba(0, 212, 255, 0.15);
+    color: #00d4ff;
+    width: auto;
+    padding: 0 1rem;
+    gap: 0.5rem;
+  }
+  
+  .resume-action-btn.download:hover {
+    background: rgba(0, 212, 255, 0.25);
+  }
+  
+  .resume-action-btn.close:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+  }
+  
+  .resume-action-btn.external:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  /* Modal Content Area */
+  .resume-modal-content {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    background: #1e293b;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* PDF Document Container */
+  .pdf-document-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: auto;
+    height: 100%;
+    background: #f8fafc;
+  }
+  
+  /* react-pdf Document Styles */
+  .react-pdf__Document {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .react-pdf__Page {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+  }
+  
+  /* Loading State */
+  .resume-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #cbd5e1;
+    font-size: 1.1rem;
+    gap: 12px;
+    z-index: 1;
+    background: #1e293b;
+  }
+  
+  .loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(0, 212, 255, 0.2);
+    border-radius: 50%;
+    border-top-color: #00d4ff;
+    animation: spin 1s linear infinite;
+  }
+  
+  /* Error Fallback */
+  .pdf-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 2rem;
+  }
+  
+  .pdf-fallback p {
+    font-size: 1.1rem;
+    text-align: center;
+    max-width: 350px;
+    line-height: 1.6;
+  }
+  
+  .pdf-fallback .resume-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1.5rem;
+    height: 42px;
+    width: auto;
+  }
+  
+  .pdf-fallback .resume-action-btn.external {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  .pdf-fallback .resume-action-btn.external:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* PDF Controls */
+  .pdf-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(15, 23, 42, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 5;
+  }
+  
+  .pdf-navigation, .pdf-zoom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .control-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .control-btn:hover:not(.disabled) {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .control-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .page-indicator, .zoom-level {
+    color: white;
+    font-size: 0.9rem;
+    min-width: 60px;
+    text-align: center;
+  }
+  
+  /* Canvas Implementation Styles */
+  .pdf-canvas-container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: #f8fafc;
+  }
+  
+  .pdf-canvas {
+    margin: 20px 0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+  }
+  
+  /* Iframe Implementation */
+  .resume-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Animations */
+  @keyframes shine {
+    0% {
+      left: -100%;
+    }
+    20%, 100% {
+      left: 100%;
+    }
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .resume-modal {
+      width: 95%;
+      height: 90vh;
+    }
+    
+    .react-pdf__Page {
+      margin-bottom: 10px;
+    }
+    
+    .pdf-controls {
+      padding: 8px 15px;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .resume-modal-header {
+      padding: 0.75rem 1rem;
+    }
+    
+    .resume-modal-header h3 {
+      font-size: 1.1rem;
+    }
+    
+    .resume-action-btn {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .resume-action-btn.download {
+      padding: 0 0.75rem;
+    }
+    
+    .resume-action-btn.download span {
+      display: none;
+    }
+    
+    .pdf-controls {
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .pdf-navigation {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .pdf-zoom {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .resume-modal {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      border-radius: 0;
+    }
+    
+    .resume-modal-overlay {
+      padding: 0;
+    }
+    
+    .loading-spinner {
+      width: 24px;
+      height: 24px;
+    }
+  }
