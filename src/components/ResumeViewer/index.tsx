@@ -1,44 +1,39 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download, Eye, ExternalLink } from 'lucide-react';
-import './ResumeViewer.css';
-
-// Use a direct path to the file in public folder
-const resumePath = process.env.PUBLIC_URL + '/resume/Resume.pdf';
+import React, { useState } from "react";
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Download, Eye, ExternalLink } from "lucide-react";
+import "./ResumeViewer.css";
 
 interface ResumeViewerProps {
   className?: string;
+  resumePath: string;
+  resumeFilename?: string;
 }
 
-export const ResumeViewer: React.FC<ResumeViewerProps> = ({ className }) => {
+export const ResumeViewer: React.FC<ResumeViewerProps> = ({ 
+  className, 
+  resumePath, 
+  resumeFilename = "Resume.pdf" 
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const openViewer = () => setIsOpen(true);
-  const closeViewer = () => setIsOpen(false);
-  
-  const handleIframeLoad = () => {
-    setIsLoading(false);
-  };
+  // Create document object for the doc viewer
+  const docs = [{ uri: resumePath, fileName: resumeFilename }];
 
   const handleDownload = () => {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = resumePath;
-    link.download = "Sukhmanpreet_Singh_Aulakh_Resume.pdf";
+    link.download = resumeFilename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  const openInNewTab = () => {
-    window.open(resumePath, '_blank');
-  };
-
   return (
     <>
       <button 
-        className={`resume-viewer-btn ${className || ''}`}
-        onClick={openViewer}
+        className={`resume-viewer-btn ${className || ""}`}
+        onClick={() => setIsOpen(true)}
         aria-label="View Resume"
       >
         <Eye size={16} className="icon-left" />
@@ -53,9 +48,7 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ className }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) closeViewer();
-            }}
+            onClick={(e) => e.target === e.currentTarget && setIsOpen(false)}
           >
             <motion.div
               className="resume-modal"
@@ -78,14 +71,14 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ className }) => {
                   </button>
                   <button 
                     className="resume-action-btn external"
-                    onClick={openInNewTab}
+                    onClick={() => window.open(resumePath, "_blank")}
                     title="Open in New Tab"
                   >
                     <ExternalLink size={18} />
                   </button>
                   <button 
                     className="resume-action-btn close"
-                    onClick={closeViewer}
+                    onClick={() => setIsOpen(false)}
                     title="Close"
                   >
                     <X size={18} />
@@ -94,39 +87,18 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ className }) => {
               </div>
               
               <div className="resume-modal-content">
-                {isLoading && (
-                  <div className="resume-loading">
-                    <div className="loading-spinner"></div>
-                    <span>Loading resume...</span>
-                  </div>
-                )}
-                
-                <object
-                  data={resumePath}
-                  type="application/pdf"
-                  className="resume-iframe"
-                  onLoad={handleIframeLoad}
-                >
-                  <div className="pdf-fallback">
-                    <p>Unable to preview the PDF directly. You can download it or open in a new tab.</p>
-                    <div className="pdf-fallback-actions">
-                      <button 
-                        className="resume-action-btn download"
-                        onClick={handleDownload}
-                      >
-                        <Download size={18} />
-                        <span>Download Resume</span>
-                      </button>
-                      <button 
-                        className="resume-action-btn external"
-                        onClick={openInNewTab}
-                      >
-                        <ExternalLink size={18} />
-                        <span>Open in Browser</span>
-                      </button>
-                    </div>
-                  </div>
-                </object>
+                <DocViewer
+                  documents={docs}
+                  pluginRenderers={DocViewerRenderers}
+                  style={{ height: 600 }}
+                  config={{
+                    header: {
+                      disableHeader: true,
+                      disableFileName: true,
+                      retainURLParams: false
+                    }
+                  }}
+                />
               </div>
             </motion.div>
           </motion.div>

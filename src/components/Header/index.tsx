@@ -116,28 +116,28 @@ const Header: React.FC = () => {
         </div>
         <div className="header-container">
           <div className="logo-container">
-  <Link to="hero" smooth={true} duration={800} className="logo-link">
-    <motion.div 
-      className="logo"
-      initial={{ opacity: 0, scale: 0.8 }} 
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6 }}
-    >
-      <motion.div 
-        className="logo-initials"
-        whileHover={{ 
-          scale: 1.05,
-          color: "#00d4ff", 
-          transition: { duration: 0.3 } 
-        }}
-      >
-        <span className="logo-letter">S</span>
-        <span className="logo-letter letter-a">A</span>
-        <div className="logo-glow"></div>
-      </motion.div>
-    </motion.div>
-  </Link>
-</div>
+            <Link to="hero" smooth={true} duration={800} className="logo-link">
+              <motion.div 
+                className="logo"
+                initial={{ opacity: 0, scale: 0.8 }} 
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6 }}
+              >
+                <motion.div 
+                  className="logo-initials"
+                  whileHover={{ 
+                    scale: 1.05,
+                    color: "#00d4ff", 
+                    transition: { duration: 0.3 } 
+                  }}
+                >
+                  <span className="logo-letter">S</span>
+                  <span className="logo-letter letter-a">A</span>
+                  <div className="logo-glow"></div>
+                </motion.div>
+              </motion.div>
+            </Link>
+          </div>
           
           <button 
             className={`mobile-menu-toggle ${menuOpen ? 'active' : ''}`} 
@@ -201,7 +201,7 @@ const Header: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.7, duration: 0.5 }}
             >
-                <ResumeViewer className="header-resume-btn" />
+                <ResumeViewer className="header-resume-btn" resumePath='https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/portfolio/main/public/Resume.pdf' resumeFilename="Sukhmanpreet_Singh_Aulakh_Resume.pdf"/>
             </motion.div>
           </div>
         </div>
